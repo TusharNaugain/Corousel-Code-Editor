@@ -3,7 +3,7 @@ import MonacoEditor from '@monaco-editor/react';
 import { useCollaboration } from '../hooks/useCollaboration';
 import type { EditorState } from '../types/editor';
 import { PlayIcon } from '@heroicons/react/24/solid';
-import * as monaco from 'monaco-editor'; // Import Monaco's types
+import * as monaco from 'monaco-editor'; // Correct import for Monaco's types
 
 interface EditorProps {
   state: EditorState;

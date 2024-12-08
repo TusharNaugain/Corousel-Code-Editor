@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Editor } from './components/Editor';
 import { Toolbar } from './components/Toolbar';
 import { FileList } from './components/FileList';
@@ -27,11 +27,15 @@ function App() {
       if (response.data.length > 0 && !selectedFile) {
         setSelectedFile(response.data[0]);
       }
-    } catch (error) {
-      console.error('Error loading files:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error loading files:', error.message);
+      } else {
+        console.error('An unknown error occurred');
+      }
     }
   };
-
+  
   const handleCreateFile = async (name: string, language: string) => {
     try {
       const response = await api.createFile({
@@ -41,11 +45,15 @@ function App() {
       });
       setFiles([response.data, ...files]);
       setSelectedFile(response.data);
-    } catch (error) {
-      console.error('Error creating file:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error creating file:', error.message);
+      } else {
+        console.error('An unknown error occurred');
+      }
     }
   };
-
+  
   const handleDeleteFile = async (id: string) => {
     try {
       await api.deleteFile(id);
@@ -53,45 +61,62 @@ function App() {
       if (selectedFile?._id === id) {
         setSelectedFile(files.find(f => f._id !== id) || null);
       }
-    } catch (error) {
-      console.error('Error deleting file:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error deleting file:', error.message);
+      } else {
+        console.error('An unknown error occurred');
+      }
     }
   };
-
+  
   const handleCodeChange = async (content: string | undefined) => {
     if (!selectedFile || !content) return;
-
+  
     try {
       const response = await api.updateFile(selectedFile._id, { content });
       setSelectedFile(response.data);
       setFiles(files.map(f => f._id === response.data._id ? response.data : f));
-    } catch (error) {
-      console.error('Error updating file:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error updating file:', error.message);
+      } else {
+        console.error('An unknown error occurred');
+      }
     }
   };
-
+  
   const handleLanguageChange = async (language: string) => {
     if (!selectedFile) return;
-
+  
     try {
       const response = await api.updateFile(selectedFile._id, { language });
       setSelectedFile(response.data);
       setFiles(files.map(f => f._id === response.data._id ? response.data : f));
-    } catch (error) {
-      console.error('Error updating language:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error updating language:', error.message);
+      } else {
+        console.error('An unknown error occurred');
+      }
     }
   };
-
+  
   const handleRunCode = async () => {
     if (!selectedFile) return;
-
+  
     try {
       const response = await api.runCode(selectedFile._id);
       setTerminalOutput(response.data.output);
-    } catch (error) {
-      setTerminalOutput(`Error running code: ${error.message}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setTerminalOutput(`Error running code: ${error.message}`);
+      } else {
+        setTerminalOutput('An unknown error occurred');
+      }
     }
   };
+  
 
   return (
     <div className={`h-screen flex ${theme === 'light' ? 'bg-white' : 'bg-gray-900'}`}>

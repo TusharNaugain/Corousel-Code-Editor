@@ -2,8 +2,8 @@ import { useRef } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import { useCollaboration } from '../hooks/useCollaboration';
 import type { EditorState } from '../types/editor';
-import { editor } from '@monaco-editor/react';
 import { PlayIcon } from '@heroicons/react/24/solid';
+import * as monaco from 'monaco-editor'; // Import Monaco's types
 
 interface EditorProps {
   state: EditorState;
@@ -12,11 +12,11 @@ interface EditorProps {
 }
 
 export function Editor({ state, onChange, onRun }: EditorProps) {
-  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null); // Use Monaco's type
 
   useCollaboration(editorRef, 'collaborative-editor-room');
 
-  const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor) => {
+  const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor) => {
     editorRef.current = editor;
   };
 

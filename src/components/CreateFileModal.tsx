@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog } from '@headlessui/react';
-import { getFileExtension, getDefaultContent } from '../utils/fileExtensions';
+import { getFileExtension } from '../utils/fileExtensions'; // Removed getDefaultContent import
 
 interface CreateFileModalProps {
   isOpen: boolean;

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import * as Y from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { MonacoBinding } from 'y-monaco';
-import { editor } from '@monaco-editor/react';
+import { editor } from 'monaco-editor'; 
 
 export function useCollaboration(
   editorRef: React.MutableRefObject<editor.IStandaloneCodeEditor | null>,
